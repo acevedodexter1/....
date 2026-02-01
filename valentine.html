@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffc0cb 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Important para di mag-scroll */
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .gif-container img {
+            width: 200px;
+            max-width: 80%; /* Para responsive sa mobile */
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #d32f2f;
+            font-size: 3rem; /* Adjusted for mobile */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            margin-top: 0;
+            padding: 0 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Para bumaba ang button pag masikip screen */
+            gap: 15px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            /* Important: Para hindi mag-overlap */
+            z-index: 10; 
+        }
+
+        .yes-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            background-color: #45a049;
+        }
+
+        .no-btn {
+            background-color: #f44336;
+            color: white;
+            position: relative; /* Default position */
+        }
+        
+        /* Mobile specific adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            button { padding: 12px 25px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="gif-container" id="gifContainer">
+            <img src="https://media.tenor.com/fMP0pG46Vp4AAAAi/mocha-bear-hearts.gif" alt="Cute Bear">
+        </div>
+
+        <h1 id="question">Will you be my Valentine?</h1>
+
+        <div class="btn-group">
+            <button id="yesBtn" class="yes-btn">Yes, absolutely!</button>
+            <button id="noBtn" class="no-btn">No way</button>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const question = document.getElementById('question');
+        const gifContainer = document.getElementById('gifContainer');
+
+        // Function para ilipat ang button (Re-usable)
+        function moveButton() {
+            // Kunin ang size ng screen at button
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+
+            noBtn.style.position = 'fixed'; // Gawing fixed para malaya gumalaw
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        }
+
+        // Logic for "Yes"
+        yesBtn.addEventListener('click', () => {
+            question.innerHTML = "Yay! See you on the 14th! ❤️";
+            gifContainer.innerHTML = '<img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Happy Bear">';
+            document.querySelector('.btn-group').style.display = 'none';
+        });
+
+        // Logic for "No" (Pang PC at Mobile)
+        noBtn.addEventListener('mouseover', moveButton); // Para sa PC (mouse)
+        noBtn.addEventListener('touchstart', (e) => { // Para sa Phone (touch)
+            e.preventDefault(); // Pigilan ang normal click
+            moveButton();
+        });
+        noBtn.addEventListener('click', (e) => { // Backup click handler
+            e.preventDefault();
+            moveButton();
+        });
+
+    </script>
+
+</body>
+</html>
